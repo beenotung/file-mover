@@ -12,9 +12,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
+  private TextView debug_tv;
+  private static final int MODE_INCOMING = 0;
+  private static final int MODE_OUTGOING = 1;
+  private int direction_mode = 1;
+  private static final String[] MODE_STRINGS = {"<----", "---->"};
+
+  private void debug(String msg) {
+    debug_tv.setText("debug: " + msg);
+  }
+
+  private void info(String msg) {
+    debug_tv.setText("info: " + msg);
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +55,37 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
+    /* init var */
+    debug_tv = (TextView) findViewById(R.id.debug_tv);
+    Button setpath_mobile_btn = (Button) findViewById(R.id.setpath_mobile_btn);
+    Button setpath_pc_btn = (Button) findViewById(R.id.setpath_pc_btn);
+    final Button direction_btn = (Button) findViewById(R.id.direction_btn);
+
+    /* init listener*/
+    setpath_mobile_btn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+      }
+    });
+    setpath_pc_btn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+      }
+    });
+    direction_btn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        direction_mode = 1 - direction_mode;
+        direction_btn.setText(MODE_STRINGS[direction_mode]);
+      }
+    });
+
+    /* init value */
+    debug_tv.setText("");
+    direction_btn.setText(MODE_STRINGS[direction_mode]);
   }
 
   @Override
