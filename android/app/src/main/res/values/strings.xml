@@ -10,7 +10,7 @@
     <string name="pcpath">pc path</string>
     <string name="mobile">mobile</string>
     <string name="pc">pc</string>
-    <string name="placeholder">placeholder</string>
+    <string name="loading">loading</string>
     <string name="start">start</string>
     <string name="mobileaddress">mobile address</string>
     <string name="pcaddress">pc address</string>
