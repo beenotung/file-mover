@@ -14,6 +14,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import com.github.beenotung.utils.Lang;
+import com.github.beenotung.utils.Lang.Consumer;
+
+import java.io.IOException;
+import java.net.*;
+import java.util.Collections;
+import java.util.Enumeration;
+
+import static java.net.NetworkInterface.getNetworkInterfaces;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,13 +31,25 @@ public class MainActivity extends AppCompatActivity
   private static final int MODE_OUTGOING = 1;
   private int direction_mode = 1;
   private static final String[] MODE_STRINGS = {"<----", "---->"};
+  private TextView mobileaddress_tv;
+  private TextView pcaddress_tv;
 
-  private void debug(String msg) {
-    debug_tv.setText("debug: " + msg);
+  private void debug(final String msg) {
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        debug_tv.setText("debug: " + msg);
+      }
+    });
   }
 
-  private void info(String msg) {
-    debug_tv.setText("info: " + msg);
+  private void info(final String msg) {
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        debug_tv.setText("info: " + msg);
+      }
+    });
   }
 
   @Override
@@ -61,6 +82,8 @@ public class MainActivity extends AppCompatActivity
     Button setpath_mobile_btn = (Button) findViewById(R.id.setpath_mobile_btn);
     Button setpath_pc_btn = (Button) findViewById(R.id.setpath_pc_btn);
     final Button direction_btn = (Button) findViewById(R.id.direction_btn);
+    mobileaddress_tv = (TextView) findViewById(R.id.mobileaddress_tv);
+    pcaddress_tv = (TextView) findViewById(R.id.pcaddress_tv);
 
     /* init listener*/
     setpath_mobile_btn.setOnClickListener(new View.OnClickListener() {
@@ -84,8 +107,9 @@ public class MainActivity extends AppCompatActivity
     });
 
     /* init value */
-    debug_tv.setText("");
+    //debug_tv.setText("");
     direction_btn.setText(MODE_STRINGS[direction_mode]);
+    startServer();
   }
 
   @Override
@@ -143,5 +167,49 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
+  }
+
+  private void startServer() {
+    debug("start server");
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          debug("start server socket");
+          ServerSocket server = new ServerSocket(0);
+          debug("port=" + server.getLocalPort());
+          final String address = getMobileAddress(server.getLocalPort());
+          runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              mobileaddress_tv.setText(address);
+            }
+          });
+          while (true) {
+            Socket socket = server.accept();
+            debug("socket client connected" + socket.getRemoteSocketAddress());
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }).start();
+  }
+
+  private String getMobileAddress(int port) {
+    try {
+      for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+        if (!networkInterface.isLoopback()) {
+          for (InetAddress inetAddress : Collections.list(networkInterface.getInetAddresses())) {
+            String s = inetAddress.getCanonicalHostName();
+            if (!s.contains(":"))
+              return s + ":" + port;
+          }
+        }
+      }
+    } catch (SocketException e) {
+      e.printStackTrace();
+    }
+    return "";
   }
 }
