@@ -35,7 +35,7 @@
          <children>
             <Label text="mobile address" />
             <Label text="pc address" GridPane.rowIndex="1" />
-            <Label text="loading" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="pcaddress_label" text="loading" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="mobile_address_textfield" onAction="#enter_mobile_address" GridPane.columnIndex="1" />
          </children>
       </GridPane>
