@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
 
-<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.beenotung.filemover.MainController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
@@ -36,7 +36,7 @@
             <Label text="mobile address" />
             <Label text="pc address" GridPane.rowIndex="1" />
             <Label text="loading" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" />
+            <TextField fx:id="mobile_address_textfield" onAction="#enter_mobile_address" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <Line endX="250.0" startX="-250.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
