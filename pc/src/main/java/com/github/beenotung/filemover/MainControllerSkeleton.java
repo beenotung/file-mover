@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -23,8 +24,24 @@ public abstract class MainControllerSkeleton {
   @FXML // fx:id="mobile_address_textfield"
   protected TextField mobile_address_textfield; // Value injected by FXMLLoader
 
+  @FXML // fx:id="setpath_mobile_btn"
+  protected Button setpath_mobile_btn; // Value injected by FXMLLoader
+
+  @FXML // fx:id="setpath_pc_btn"
+  protected Button setpath_pc_btn; // Value injected by FXMLLoader
+
   @FXML
   void enter_mobile_address(ActionEvent event) {
+
+  }
+
+  @FXML
+  void setpath_mobile(ActionEvent event) {
+
+  }
+
+  @FXML
+  void setpath_pc(ActionEvent event) {
 
   }
 

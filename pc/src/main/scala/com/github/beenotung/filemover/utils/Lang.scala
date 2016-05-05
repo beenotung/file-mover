@@ -15,5 +15,11 @@ object Lang {
   implicit def runnable(f: () => Unit): Runnable = new Runnable {
     override def run(): Unit = f()
   }
+
+  class Error(val text: String) {
+    override def toString = "Error: " + text
+  }
+
+  object Nil extends Error("Nil")
+
 }
-case object Error
